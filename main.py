@@ -1,5 +1,4 @@
-from http.client import NETWORK_AUTHENTICATION_REQUIRED
-import requests,json,uuid,time,typing,colorama,os,urllib.request, logging
+import requests,json,uuid,time,typing,colorama,os,urllib.request
 
 class APIs:
     login_attempt_count: int = 0
@@ -172,11 +171,15 @@ class APIs:
 
     def get_id(self,username)->str: 
         api_get_user_dtl = requests.get(f'https://i.instagram.com/api/v1/feed/user/{username}/username/' , headers=self.headers, cookies=self.cookies)
-        if 'Not authorized to view user' not in api_get_user_dtl.text:
+        if 'Not authorized to view user' not in api_get_user_dtl.text and 'pk' in api_get_user_dtl.text:
             return str(api_get_user_dtl.json()['user']['pk'])
         else:
             web_get_user_dtl = requests.get(f'https://www.instagram.com/{username}/?__a=1' , headers=self.headers, cookies=self.cookies)
-            return str(web_get_user_dtl.json()['graphql']['user']['id'])
+            if 'id' in web_get_user_dtl.text:
+                return str(web_get_user_dtl.json()['graphql']['user']['id'])
+            else:
+                print('['+colorama.Fore.RED+'!!'+colorama.Fore.RESET+'] Unable to get id of provider user') #exit 
+                exit(1);
   
     def get_media_info(self,id)-> requests.Response: return requests.get(f'https://i.instagram.com/api/v1/media/{id}/info/',headers=self.headers,cookies=self.cookies)
 
@@ -194,7 +197,7 @@ def banner() -> None:
  ░ ▒  ▒     ░     ▒ ░▒░ ░ ▒ ░░ ░▒  ░ ░
  ░ ░  ░   ░       ░  ░░ ░ ▒ ░░  ░  ░  
    ░              ░  ░  ░ ░        ░  
- ░                            [ - Download this - ]
+ ░                            [ - Download this by insta @0xdevil - ]
 '''+colorama.Fore.RESET)
 
 def main() -> typing.Any:
@@ -369,4 +372,4 @@ def main() -> typing.Any:
 
 
 if __name__ == '__main__':
-    main()
+    main()  
