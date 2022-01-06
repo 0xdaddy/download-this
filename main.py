@@ -197,7 +197,7 @@ def banner() -> None:
  ░ ▒  ▒     ░     ▒ ░▒░ ░ ▒ ░░ ░▒  ░ ░
  ░ ░  ░   ░       ░  ░░ ░ ▒ ░░  ░  ░  
    ░              ░  ░  ░ ░        ░  
- ░                            [ - Download this by insta @0xdevil - ]
+ ░                            [ - Download this - ]
 '''+colorama.Fore.RESET)
 
 def main() -> typing.Any:
