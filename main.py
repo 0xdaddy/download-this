@@ -1,4 +1,4 @@
-import requests,json,uuid,time,typing,colorama,os,urllib.request
+import requests,json,uuid,time,typing,colorama,os,urllib.request, logging
 
 class APIs:
     login_attempt_count: int = 0
@@ -175,7 +175,7 @@ class APIs:
             return str(api_get_user_dtl.json()['user']['pk'])
         else:
             web_get_user_dtl = requests.get(f'https://www.instagram.com/{username}/?__a=1' , headers=self.headers, cookies=self.cookies)
-            if 'id' in web_get_user_dtl.text:
+            if 'id' in web_get_user_dtl.text and '<!DOCTYPE html>' not in web_get_user_dtl.text:
                 return str(web_get_user_dtl.json()['graphql']['user']['id'])
             else:
                 print('['+colorama.Fore.RED+'!!'+colorama.Fore.RESET+'] Unable to get id of provider user') #exit 
@@ -372,4 +372,4 @@ def main() -> typing.Any:
 
 
 if __name__ == '__main__':
-    main()  
+    main() 
